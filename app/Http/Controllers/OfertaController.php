@@ -47,8 +47,6 @@ if ($request->hasFile('zdjecia'))
         ]);
 if ($request->ajax() || $request->wantsJson()) {
     return response()->json([
-        'status' => 'success',
-        'message' => 'Oferta dodana',
         'data' => $oferta
     ]);
 }
