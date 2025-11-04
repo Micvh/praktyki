@@ -7,31 +7,35 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Wyświetlenie formularza logowania
-    public function showLogin()
+    public function show()
     {
         return view('auth.login');
     }
 
-    // Obsługa logowania
     public function login(Request $request)
     {
+        
         $request->validate([
             'username' => 'required|string',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        
+        $user = User::firstWhere('username', $request->username);
 
-        if ($user && password_verify($request->password, $user->password)) {
-            session(['user_id' => $user->id]);
-            return redirect()->route('dashboard');
+   
+        if (!$user || !password_verify($request->password, $user->password)) {
+            return back()->withErrors([
+                'username' => 'Nieprawidłowe dane logowania'
+            ]);
         }
 
-        return back()->withErrors(['username' => 'Nieprawidłowe dane logowania']);
+
+        session(['user_id' => $user->id]);
+
+        return redirect()->route('dashboard');
     }
 
-    // Wylogowanie
     public function logout()
     {
         session()->flush();

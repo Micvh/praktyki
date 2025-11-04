@@ -1,111 +1,128 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj ofertę</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        * { box-sizing: border-box; margin:0; padding:0; font-family:Arial,sans-serif; }
+        
+        body { 
+            display:flex; 
+            justify-content:center; 
+            align-items:flex-start; 
+            min-height:100vh; 
+            background:#f0f2f5; 
+            padding-top:50px; 
+        }
 
-<style>
-    * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+        .form-container { 
+            margin-top:40px; 
+            background:#fff; 
+            padding:30px 40px; 
+            border-radius:8px; 
+            box-shadow:0 4px 8px rgba(0,0,0,0.1); 
+            width:400px; 
+        }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    background-color: #f0f2f5;
-    padding-top: 50px;
-}
+        h2 { 
+            text-align:center; 
+            margin-bottom:20px; 
+            color:#333; 
+        }
 
-#form1 {
-    margin-top: 40px;
-    background-color: #fff;
-    padding: 30px 40px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    width: 400px;
-}
+        label { 
+            display:block; 
+            margin-top:10px; 
+            margin-bottom:5px; 
+            font-weight:bold; 
+            color:#555; 
+        }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-}
+        input[type="text"], 
+        textarea, 
+        input[type="file"], 
+        select { 
+            width:100%; 
+            padding:10px; 
+            border:1px solid #ccc; 
+            border-radius:5px; 
+        }
 
-label {
-    display: block;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-}
+        textarea { 
+            height:80px; 
+            resize:vertical; 
+        }
 
-input[type="text"],
-input[type="password"],
-input[type="number"],
-textarea,
-input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        #dodaj { 
+            width:100%; 
+            margin-top:15px; 
+            padding:12px; 
+            border:none; 
+            border-radius:5px; 
+            background-color:#1dacff; 
+            color:white; 
+            font-weight:bold; 
+            cursor:pointer; 
+            transition:0.3s; 
+        }
 
-textarea {
-    height: 80px;
-    resize: vertical;
-}
+        #dodaj:hover { 
+            background-color:#1a9de8; 
+        }
 
-#dodaj{
-    width: 100%;
-    margin-top: 15px;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #1dacff;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
+        .error-list { 
+            color:red; 
+            margin-bottom:10px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Dodaj ofertę</h2>
 
-#dodaj:hover {
-    background-color: #1dacff;
-}
+        @if ($errors->any())
+            <div class="error-list">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-</style>
-@section('content')
-<div class="max-w-2xl mx-auto p-4 bg-white shadow-md rounded mt-6">
-    <h2 class="text-2xl font-bold mb-4">Dodaj ofertę</h2>
+        <form action="{{ route('offerts.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-    <form action="{{ route('offerts.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+            <label>Numer oferty:</label>
+            <input type="text" name="number" required>
 
-        <label class="block mb-2">Numer oferty:</label>
-        <input type="text" name="OffertNumber" class="border p-2 w-full mb-4" required>
+            <label>Opis oferty:</label>
+            <textarea name="description" required></textarea>
 
-        <label class="block mb-2">Opis oferty:</label>
-        <textarea name="OffertDescription" class="border p-2 w-full mb-4" required></textarea>
+            <label>Rozmiar mieszkania:</label>
+            <input type="text" name="size">
 
-        <label class="block mb-2">Rozmiar mieszkania:</label>
-        <input type="text" name="OffertSize" class="border p-2 w-full mb-4">
+            <label>Imię agenta:</label>
+            <input type="text" name="agent_name" required>
 
-        <label class="block mb-2">Imię agenta:</label>
-        <input type="text" name="AgentName" class="border p-2 w-full mb-4" required>
+            <label>Telefon agenta:</label>
+            <input type="text" name="agent_phone">
 
-        <label class="block mb-2">Telefon agenta:</label>
-        <input type="text" name="AgentPhone" class="border p-2 w-full mb-4">
+            <label>Typ oferty:</label>
+            <select name="type" required>
+                <option value="">-- Wybierz typ oferty --</option>
+                <option value="Wynajem">Wynajem</option>
+                <option value="Sprzedaż">Sprzedaż</option>
+                <option value="Dzierżawa">Dzierżawa</option>
+            </select>
 
-        <label class="block mb-2">Typ oferty:</label>
-        <div class="mb-4">
-            <label><input type="checkbox" name="OffertType[]" value="Typ1"> Typ1</label>
-            <label class="ml-4"><input type="checkbox" name="OffertType[]" value="Typ2"> Typ2</label>
-        </div>
+            <label>Zdjęcia:</label>
+            <input type="file" name="photos[]" multiple>
 
-        <label class="block mb-2">Zdjęcia:</label>
-        <input type="file" name="Photos[]" multiple class="border mb-4 w-full">
-
-        <button type="submit" id="dodaj">Dodaj ofertę</button>
-    </form>
-</div>
-
+            <button type="submit" id="dodaj">Dodaj ofertę</button>
+        </form>
+    </div>
+</body>
+</html>

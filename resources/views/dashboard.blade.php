@@ -97,11 +97,11 @@
             <button class="btn">Dodaj użytkownika</button>
         </a>
         
-        <a href="{{ route('offerts.create') }}">
+        <a href="{{ route('offerts.index') }}">
             <button class="edit">Edytuj Oferte</button>
         </a>
         
-        <a href="{{ route('offerts.create') }}">
+        <a href="{{ route('users.index') }}">
             <button class="edit">Edytuj użytkownika</button>
         </a>
 
