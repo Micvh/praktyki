@@ -82,19 +82,10 @@
     <div class="form-container">
         <h2>Dodaj ofertę</h2>
 
-        @if ($errors->any())
-            <div class="error-list">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+     
 
         <form action="{{ route('offerts.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-
+      
             <label>Numer oferty:</label>
             <input type="text" name="number" required>
 
