@@ -83,15 +83,10 @@ a:hover {
 <body>
     <div >
      
-        @if($errors->any())
-            <div >
-                {{ $errors->first() }}
-            </div>
-        @endif
+
 
         <form action="{{ url('/login') }}" method="POST" >
-            @csrf
-            <div>
+             <div>
                 <label >Uzytkownik</label>
                 <br>
                 <input type="text" name="username"  required>

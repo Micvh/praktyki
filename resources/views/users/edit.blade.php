@@ -61,18 +61,10 @@ button:hover {
 <div class="container">
     <h2>Edytuj użytkownika</h2>
 
-    @if ($errors->any())
-        <div style="color:red; margin-bottom:10px;">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+
 
     <form action="{{ route('users.update', $user->id) }}" method="POST">
-        @csrf
+    
         @method('PUT')
 
         <label>Login:</label>
